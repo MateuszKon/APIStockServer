@@ -32,4 +32,4 @@ if __name__ == "__main__":
     message = """\
     This message is sent from Python."""
     sender = EmailSender(smtp_server, sender_email, password)
-    sender.send(receiver_email, "Hi there", message)
+    sender.send(receiver_email, "Python Alert - XAU", message)
