@@ -92,6 +92,7 @@ class ApiHandler:
 
 
 if __name__ == "__main__":
+    pass
     '''
     ApiHandler.request_test("XAG/USD")
     ApiHandler.request_test("CME_GC1")
@@ -104,7 +105,8 @@ if __name__ == "__main__":
     print(spot_price)
     phys_price = ApiHandler.current_price("PHYS")['c'] * 361291628 / 2849551
     print(phys_price)
-    print((spot_price-phys_price)/spot_price*100)
+    offset = 
+    print((spot_price-phys_price)/spot_price*100-offset)
     '''
     '''
     # Silver price
@@ -115,12 +117,18 @@ if __name__ == "__main__":
     print(pslv_price)
     print((spot_price-pslv_price)/spot_price*100)
     '''
+
+    '''
     # Pallad & Platinium price
     print("Pallad & Platinium:")
-    xpt_perc = 0.355
-    spot_price_xpt = ApiHandler.metals_get_current_price("XPT")['price'] * xpt_perc
-    spot_price_xpd = ApiHandler.metals_get_current_price("XPD")['price'] * (1 - xpt_perc)
-    print(spot_price_xpt + spot_price_xpd)
-    sppp_price = ApiHandler.current_price("SPPP")['c'] * 9748015 / (53383 + 41899)
-    print(sppp_price)
-    print((spot_price_xpt+spot_price_xpd-sppp_price)/(spot_price_xpt+spot_price_xpd)*100)
+    xpt_ammount = 53383
+    xpd_ammount = 41899
+    spot_xpt_value = ApiHandler.metals_get_current_price("XPT")['price'] * xpt_ammount
+    spot_xpd_value = ApiHandler.metals_get_current_price("XPD")['price'] * xpd_ammount
+    spot_value = spot_xpt_value + spot_xpd_value
+    print(spot_value)
+    sppp_value = ApiHandler.current_price("SPPP")['c'] * 9748015
+    print(sppp_value)
+    print((spot_value-sppp_value)/spot_value*100)
+    # Currently SPPP has bug
+    '''
