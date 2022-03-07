@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask
+
+from alerts import MetalEtfAlerts
 
 app = Flask(__name__)
 

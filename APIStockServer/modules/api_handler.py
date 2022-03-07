@@ -1,8 +1,9 @@
+from datetime import datetime
+import functools
 import os.path
 import requests
-import functools
-from modules.util import get_environ_file_path
-from datetime import datetime
+
+from util import get_environ_file_path
 
 
 # Not using decorator package because of exception generation on calling decorated function
