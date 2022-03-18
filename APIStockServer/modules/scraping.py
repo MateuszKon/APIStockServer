@@ -22,9 +22,12 @@ class SprottScraping:
     @classmethod
     def get_etf_allocation(cls, etf: MetalEtf):
         """
-
+        Scraping information from https://sprott.com/ about inputed etf - scraped info is amount of shares in etf and
+        amount of precious metals holding by this etf
         :param etf: MetalEtf enumerate value
-        :return:
+        :return: Tuple of etf shares amount and total weight of metal holding. If selected etf if SPPP, then second
+        element of the tuple is a tuple of weights' of platinium and palladium (as SPPP holds two types of precious
+        metal)
         """
         if not isinstance(etf, MetalEtf):
             raise ValueError(f"'{etf}' is not MetalEtf enum type!")
@@ -54,4 +57,4 @@ if __name__ == "__main__":
     for etf in MetalEtf:
         print(etf)
         print(SprottScraping.get_etf_allocation(etf))
-        print("\n")
+        print()
