@@ -26,7 +26,7 @@ class SprottScraping:
         amount of precious metals holding by this etf
         :param etf: MetalEtf enumerate value
         :return: Tuple of etf shares amount and total weight of metal holding. If selected etf if SPPP, then second
-        element of the tuple is a tuple of weights' of platinium and palladium (as SPPP holds two types of precious
+        element of the tuple is a list of weights' of platinium and palladium (as SPPP holds two types of precious
         metal)
         """
         if not isinstance(etf, MetalEtf):
@@ -48,7 +48,7 @@ class SprottScraping:
             palladium_ounces_tag = ounces_tag.parent.next_sibling.next_sibling.td
             palladium_total_ounces = int(palladium_ounces_tag.text.replace(",", ""))
             platinum_total_ounces = total_ounces
-            total_ounces = (platinum_total_ounces, palladium_total_ounces)
+            total_ounces = [platinum_total_ounces, palladium_total_ounces]
 
         return units_outstanding, total_ounces
 
