@@ -100,15 +100,15 @@ if __name__ == "__main__":
     ApiHandler.current_price("IBM")
     '''
 
-    ''' # Gold price
+     # Gold price
     print("Gold:")
     spot_price = ApiHandler.metals_get_current_price("XAU")['price']
     print(spot_price)
     phys_price = ApiHandler.current_price("PHYS")['c'] * 361291628 / 2849551
     print(phys_price)
-    offset = 
+    offset = 0
     print((spot_price-phys_price)/spot_price*100-offset)
-    '''
+
     '''
     # Silver price
     print("Silver:")
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     print((spot_price-pslv_price)/spot_price*100)
     '''
 
-    '''
+'''
     # Pallad & Platinium price
     print("Pallad & Platinium:")
     xpt_ammount = 53383
@@ -132,4 +132,4 @@ if __name__ == "__main__":
     print(sppp_value)
     print((spot_value-sppp_value)/spot_value*100)
     # Currently SPPP has bug
-    '''
+'''

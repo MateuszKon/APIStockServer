@@ -11,4 +11,4 @@ class MetalEtfAlerts:
         self.email = email_sender
 
     def start_periodic_thread(self, funct_calculate, period, *args, **kwargs):
-        threading.Thread(target=funct_calculate, args=args, kwargs=kwargs, daemon=True).start()
+        threading.Thread(target=funct_calculate, args=(period, *args), kwargs=kwargs, daemon=True).start()
