@@ -3,7 +3,8 @@ import functools
 import os.path
 import requests
 
-from util import get_environ_file_path
+# from util import get_environ_file_path
+from APIStockServer.modules.util import get_environ_file_path
 
 
 # Not using decorator package because of exception generation on calling decorated function
