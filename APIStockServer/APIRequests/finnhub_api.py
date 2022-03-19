@@ -3,7 +3,6 @@ import functools
 import os.path
 import requests
 
-# from util import get_environ_file_path
 from APIStockServer.modules.util import get_environ_file_path
 
 
@@ -24,7 +23,7 @@ def api_request(function):
     return wrapper
 
 
-class ApiHandler:
+class Finnhub:
 
     __AUTH_KEY = None
 
@@ -42,7 +41,7 @@ class ApiHandler:
         Gets authentication key from file defined by environment variable 'APISTOCK_KEY_FILE'
         """
         try:
-            # root_path is parent folder of folder containing api_handler.py
+            # root_path is parent folder of folder containing finhub_api.py
             root_path = os.path.dirname(os.path.realpath(__file__))
             root_path = os.path.dirname(root_path)
             file_path = get_environ_file_path("APISTOCK_KEY_FILE",
@@ -82,55 +81,9 @@ class ApiHandler:
         response = request.get(api_url)
         return response.json()
 
-    @classmethod
-    def metals_get_current_price(cls, metal_name):
-        header = {"x-access-token": "goldapi-1sj718l0f5hae6-io", "Content-Type": "application/json"}
-        response = requests.get(f'https://www.goldapi.io/api/{metal_name}/USD', headers=header)
-        # {'timestamp': 1646564733, 'metal': 'XAG', 'currency': 'USD', 'exchange': 'FOREXCOM',
-        # 'symbol': 'FOREXCOM:XAGUSD', 'prev_close_price': 25.184, 'open_price': 25.184, 'low_price': 25.046,
-        # 'high_price': 25.745, 'open_time': 1646352000, 'price': 25.711, 'ch': 0.527, 'chp': 2.09, 'ask': 25.74,
-        # 'bid': 25.682}
-        return response.json()
-
 
 if __name__ == "__main__":
-    pass
-    '''
-    ApiHandler.request_test("XAG/USD")
-    ApiHandler.request_test("CME_GC1")
-    ApiHandler.current_price("IBM")
-    '''
-
      # Gold price
     print("Gold:")
-    spot_price = ApiHandler.metals_get_current_price("XAU")['price']
-    print(spot_price)
-    phys_price = ApiHandler.current_price("PHYS")['c'] * 361291628 / 2849551
+    phys_price = Finnhub.current_price("PHYS")['c'] * 361291628 / 2849551
     print(phys_price)
-    offset = 0
-    print((spot_price-phys_price)/spot_price*100-offset)
-
-    '''
-    # Silver price
-    print("Silver:")
-    spot_price = ApiHandler.metals_get_current_price("XAG")['price']
-    print(spot_price)
-    pslv_price = ApiHandler.current_price("PSLV")['c'] * 434458699 / 154432234
-    print(pslv_price)
-    print((spot_price-pslv_price)/spot_price*100)
-    '''
-
-'''
-    # Pallad & Platinium price
-    print("Pallad & Platinium:")
-    xpt_ammount = 53383
-    xpd_ammount = 41899
-    spot_xpt_value = ApiHandler.metals_get_current_price("XPT")['price'] * xpt_ammount
-    spot_xpd_value = ApiHandler.metals_get_current_price("XPD")['price'] * xpd_ammount
-    spot_value = spot_xpt_value + spot_xpd_value
-    print(spot_value)
-    sppp_value = ApiHandler.current_price("SPPP")['c'] * 9748015
-    print(sppp_value)
-    print((spot_value-sppp_value)/spot_value*100)
-    # Currently SPPP has bug
-'''
