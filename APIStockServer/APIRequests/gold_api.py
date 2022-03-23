@@ -4,7 +4,7 @@ import requests
 class GoldApi:
 
     @classmethod
-    def metals_get_current_price(cls, metal_name):
+    def current_price(cls, metal_name):
         header = {"x-access-token": "goldapi-1sj718l0f5hae6-io", "Content-Type": "application/json"}
         response = requests.get(f'https://www.goldapi.io/api/{metal_name}/USD', headers=header)
         # {'timestamp': 1646564733, 'metal': 'XAG', 'currency': 'USD', 'exchange': 'FOREXCOM',
@@ -17,5 +17,5 @@ class GoldApi:
 if __name__ == "__main__":
     # Gold price
     print("Gold:")
-    spot_price = GoldApi.metals_get_current_price("XAU")['price']
+    spot_price = GoldApi.current_price("XAU")['price']
     print(spot_price)
