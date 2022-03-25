@@ -10,45 +10,17 @@ def api_request(function):
     @functools.wraps(function)
     def wrapper(self, *args, **kwargs):
         """
-        :param self: ApiHandler class
+        Adds self._init_req() as first positional argument to function, raises exception contained in API response (if
+        exist) and return JSON version of response
+        :param self: Finnhub class
         """
-        try:
-            return function(self, self._init_req(), *args, **kwargs)
-        except KeyError as e:
-            raise Exception('Request cannot be performed due to authentication key missing.').\
-                with_traceback(e.__traceback__)
+        response = function(self, self._init_req(), *args, **kwargs)
+        response.raise_for_status()
+        return response.json()
     return wrapper
 
 
 class Finnhub(ApiRequest):
-
-    # @classmethod
-    # def _is_auth_key(cls):
-    #     """
-    #     Checks if authentication key is already read into application
-    #     :return: True or False
-    #     """
-    #     return True if cls.__AUTH_KEY else False
-    #
-    # @classmethod
-    # def _auth_key_file(cls):
-    #     """
-    #     Gets authentication key from file defined by environment variable 'APISTOCK_KEY_FILE'
-    #     """
-    #     try:
-    #         # root_path is parent folder of folder containing finhub_api.py
-    #         root_path = os.path.dirname(os.path.realpath(__file__))
-    #         root_path = os.path.dirname(root_path)
-    #         file_path = get_environ_file_path("APISTOCK_KEY_FILE",
-    #                                           root_path=root_path)
-    #         with open(file_path) as f_r:
-    #             key = f_r.readline()
-    #             if key:
-    #                 cls.__AUTH_KEY = key
-    #             else:
-    #                 raise KeyError(f"File {file_path} does not contain valid authentication key!")
-    #     except KeyError as e:
-    #         raise Exception('Check README.md file for more information.').with_traceback(e.__traceback__)
 
     def __init__(self, auth_key):
         super().__init__(auth_key)
@@ -66,26 +38,23 @@ class Finnhub(ApiRequest):
         else:
             api_url = "https://finnhub.io/api/v1/search"
         response = request.get(api_url)
-        return response.json()
+        return response
 
     @api_request
-    def current_price(self, request: requests.Session, name): #, start_date: datetime):
-        # start_date_str = str(int(start_date.timestamp()))
-        # end_date_str = str(int(datetime.today().timestamp()))
-        # api_url = f"https://finnhub.io/api/v1/stock/candle?symbol={name}&resolution=D&from={start_date_str}&to={end_date_str}"
+    def current_quote(self, request: requests.Session, name):
         api_url = f"https://finnhub.io/api/v1/quote?symbol={name}"
         response = request.get(api_url)
-        return response.json()
+        return response
+
+    def current_price(self, asset_name):
+        return self.current_quote(asset_name)['c']
 
 
 if __name__ == "__main__":
     key_path = "../../data/finnhub_key"
     with open(key_path) as f_r:
-        auth_key = f_r.readline(1)
-    api = Finnhub(auth_key)
-    api.current_price()
-    #
-    #  # Gold price
-    # print("Gold:")
-    # phys_price = Finnhub.current_price("PHYS")['c'] * 361291628 / 2849551
-    # print(phys_price)
+        key = f_r.readline()
+    api = Finnhub(key)
+
+    price = api.current_price("PHYS")
+    print(price)
