@@ -54,7 +54,7 @@ class SprottScraping:
 
 
 if __name__ == "__main__":
-    for etf in MetalEtf:
-        print(etf)
-        print(SprottScraping.get_etf_allocation(etf))
+    for metal_etf in MetalEtf:
+        print(metal_etf)
+        print(SprottScraping.get_etf_allocation(metal_etf))
         print()

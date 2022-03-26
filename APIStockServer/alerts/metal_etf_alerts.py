@@ -17,8 +17,18 @@ class MetalEtfAlerts:
 
 
 if __name__ == "__main__":
+    key_path = "../../data/goldapi_key"
+    with open(key_path) as f_r:
+        key = f_r.readline()
+    gold_api = GoldApi(key)
+
+    key_path = "../../data/finnhub_key"
+    with open(key_path) as f_r:
+        key = f_r.readline()
+    finnhub_api = Finnhub(key)
+
     etf_shares_amount, etf_metal_amount = SprottScraping.get_etf_allocation(MetalEtf.PHYS)
-    etf_price = Finnhub.current_price("PHYS",,['c']
-    metal_price = GoldApi.current_price("XAU")['price']
+    etf_price = finnhub_api.current_price("PHYS")
+    metal_price = gold_api.current_price("XAU")
     print(discount_calculation(etf_shares_amount, etf_price, etf_metal_amount, metal_price))
 

@@ -1,7 +1,7 @@
 import functools
 import requests
 
-from request_api import ApiRequest
+from APIStockServer.APIRequests.request_api import ApiRequest
 
 
 # Not using decorator package because of exception generation on calling decorated function
