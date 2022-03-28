@@ -8,7 +8,6 @@ class MetalEtf(Enum):
     PHYS = 1
     PLSV = 2
     SPPP = 3
-    UU = 4
 
 
 class SprottScraping:
@@ -16,7 +15,6 @@ class SprottScraping:
     _URLS = {MetalEtf.PHYS: "https://sprott.com/investment-strategies/physical-bullion-trusts/gold/",
              MetalEtf.PLSV: "https://sprott.com/investment-strategies/physical-bullion-trusts/silver/",
              MetalEtf.SPPP: "https://sprott.com/investment-strategies/physical-bullion-trusts/platinum-and-palladium/",
-             MetalEtf.UU: "https://sprott.com/investment-strategies/physical-commodity-funds/uranium/",
              }
 
     @classmethod
