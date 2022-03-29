@@ -1,6 +1,3 @@
-import time
-import threading
-
 from APIStockServer.alerts.alerts import Alerts
 from APIStockServer.APIRequests import Finnhub, GoldApi
 from APIStockServer.modules.email_sender import EmailSender
@@ -51,10 +48,6 @@ class MetalEtfAlerts(Alerts):
                 print(calculation_string)
             if discount > self._DISCOUNT_THRESHOLD:
                 self.send_alerts(calculation_string)
-
-
-    def start_periodic_thread(self, funct_calculate, period, *args, **kwargs):
-        threading.Thread(target=funct_calculate, args=(period, *args), kwargs=kwargs, daemon=True).start()
 
     _METAL_CHECK_FUNCTIONS_DICTIONARY = {MetalEtf.PHYS: {"spot_price_function": current_spot_price_gold_api,
                                                          "spot_price_arguments": ("XAU",),
