@@ -21,6 +21,7 @@ class AlertsScheduler:
 
     def set_hourly_alerts(self):
         if datetime.datetime.today().weekday() < 5:  # schedule only from Monday to Friday
+            # TODO: Check if self.stop_hour is lesser than self.start_hour, if so, add next day to self.stop_hour
             schedule.every().second.until(self.stop_hour).do(self.funct, *self.args, **self.kwargs)
 
     def schedule_next_day(self):

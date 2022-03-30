@@ -8,7 +8,7 @@ from APIStockServer.modules.indicators_calculation import discount_calculation
 class MetalEtfAlerts(Alerts):
 
     _METAL_CHECK_FUNCTIONS_DICTIONARY = None  # global defined later in this class
-    _DISCOUNT_THRESHOLD = 10  # discount percentage to active alert
+    _DISCOUNT_THRESHOLD = 2  # discount percentage to active alert
 
     def __init__(self, email_sender: EmailSender, gold_api: GoldApi, finnhub_api: Finnhub, alert_reveivers):
         super().__init__(email_sender, alert_reveivers)
@@ -78,11 +78,7 @@ if __name__ == "__main__":
     password = "GBvcqq7oqabLT6"
     sender = EmailSender(smtp_server, sender_email, password)
 
-    obj = MetalEtfAlerts(sender, gold_api, finnhub_api)
+    obj = MetalEtfAlerts(sender, gold_api, finnhub_api, [receiver_email, ])
     [obj.check_etf_discount(etf) for etf in MetalEtf]
 
-    # etf_shares_amount, etf_metal_amount = SprottScraping.get_etf_allocation(MetalEtf.PHYS)
-    # etf_price = finnhub_api.current_price("PHYS")
-    # metal_price = gold_api.current_price("XAU")
-    # print(discount_calculation(etf_shares_amount, etf_price, etf_metal_amount, metal_price))
 

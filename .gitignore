@@ -234,4 +234,4 @@ fabric.properties
 # OTHERS
 /data/goldapi_key
 /data/finnhub_key
-
+/data/receivers_emails
