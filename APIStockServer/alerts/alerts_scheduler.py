@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta, time, date
 import time
 
 import schedule
@@ -9,6 +9,7 @@ class AlertsScheduler:
     def __init__(self, start_hour, stop_hour, funct, *args, **kwargs):
         self.start_hour = start_hour
         self.stop_hour = stop_hour
+        self.is_stop_next_day = datetime.strptime(start_hour, "%H:%M") > datetime.strptime(stop_hour, "%H:%M")
         self.funct = funct
         self.args = args
         self.kwargs = kwargs
@@ -20,9 +21,13 @@ class AlertsScheduler:
         schedule.run_pending()
 
     def set_hourly_alerts(self):
-        if datetime.datetime.today().weekday() < 5:  # schedule only from Monday to Friday
-            # TODO: Check if self.stop_hour is lesser than self.start_hour, if so, add next day to self.stop_hour
-            schedule.every().second.until(self.stop_hour).do(self.funct, *self.args, **self.kwargs)
+        if datetime.today().weekday() < 5:  # schedule only from Monday to Friday
+            if self.is_stop_next_day:
+                tomorrow = date.today() + timedelta(days=1)
+                stop_hour = "{date} {time}".format(date=tomorrow.strftime("%Y-%m-%d"), time=self.stop_hour)
+            else:
+                stop_hour = self.stop_hour
+            schedule.every().hour.until(stop_hour).do(self.funct, *self.args, **self.kwargs)
 
     def schedule_next_day(self):
         schedule.every().day.at(self.start_hour).do(self.set_hourly_alerts)

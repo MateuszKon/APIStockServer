@@ -3,11 +3,9 @@ from APIStockServer.modules.email_sender import EmailSender
 
 class Alerts:
 
-    _DISCOUNT_THRESHOLD = 10  # discount percentage to active alert
-
-    def __init__(self, email_sender: EmailSender, alert_reveivers):
+    def __init__(self, email_sender: EmailSender, alert_receivers):
         self.email = email_sender
-        self.alert_receivers = alert_reveivers
+        self.alert_receivers = alert_receivers
 
     def get_alert_receivers(self):
         """
@@ -16,6 +14,6 @@ class Alerts:
         """
         return self.alert_receivers
 
-    def send_alerts(self, alert_string):
+    def send_alerts(self, alert_title, alert_string):
         for receiver in self.get_alert_receivers():
-            self.email.send(receiver, alert_string)
+            self.email.send(receiver, alert_title, alert_string)

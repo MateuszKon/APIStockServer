@@ -29,7 +29,10 @@ if __name__ == "__main__":
     email_sender = initialize_email_sender(config_obj)
     receivers_emails = config_obj.read_file_defined_by_key("Email Sender", "receiver_emails_path")
     metal_etf_alerts = MetalEtfAlerts(email_sender, goldapi_apis[0], finnhub_apis[0], receivers_emails)
-    AlertsScheduler("11:52", "01:50", metal_etf_alerts.check_metal_alerts, {'self': metal_etf_alerts, 'print_log': True})
+    AlertsScheduler("11:52",
+                    "01:50",
+                    metal_etf_alerts.check_metal_alerts,
+                    {'self': metal_etf_alerts, 'print_log': True})
     while True:
         AlertsScheduler.run_waiting_alert()
         time.sleep(1)

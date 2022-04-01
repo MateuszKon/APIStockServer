@@ -8,7 +8,7 @@ from APIStockServer.modules.indicators_calculation import discount_calculation
 class MetalEtfAlerts(Alerts):
 
     _METAL_CHECK_FUNCTIONS_DICTIONARY = None  # global defined later in this class
-    _DISCOUNT_THRESHOLD = 2  # discount percentage to active alert
+    _DISCOUNT_THRESHOLD = 10  # discount percentage to active alert
 
     def __init__(self, email_sender: EmailSender, gold_api: GoldApi, finnhub_api: Finnhub, alert_reveivers):
         super().__init__(email_sender, alert_reveivers)
@@ -47,7 +47,7 @@ class MetalEtfAlerts(Alerts):
             if print_log:
                 print(calculation_string)
             if discount > self._DISCOUNT_THRESHOLD:
-                self.send_alerts(calculation_string)
+                self.send_alerts("Metal ETF Alert", calculation_string)
 
     _METAL_CHECK_FUNCTIONS_DICTIONARY = {MetalEtf.PHYS: {"spot_price_function": current_spot_price_gold_api,
                                                          "spot_price_arguments": ("XAU",),
