@@ -1,40 +1,63 @@
 from datetime import datetime, timedelta, time, date
-import time
+from time import sleep
 
 import schedule
 
 
 class AlertsScheduler:
 
-    def __init__(self, start_hour, stop_hour, funct, *args, **kwargs):
-        self.start_hour = start_hour
-        self.stop_hour = stop_hour
-        self.is_stop_next_day = datetime.strptime(start_hour, "%H:%M") > datetime.strptime(stop_hour, "%H:%M")
+    def __init__(self, funct,  start_hour=0, start_minute=0, stop_hour=0, stop_minute=0, *args, **kwargs):
+        self.start_time = {"hour": start_hour, "minute": start_minute}
+        self.stop_time = {"hour": stop_hour, "minute": stop_minute}
+
+        self._is_stop_next_day = datetime.today().replace(**self.start_time) >= \
+                                 datetime.today().replace(**self.stop_time)
         self.funct = funct
         self.args = args
         self.kwargs = kwargs
 
+        # Schedule functions - today alert and next days alert
+        self.set_hourly_alerts()
         self.schedule_next_day()
 
     @classmethod
     def run_waiting_alert(cls):
         schedule.run_pending()
 
+    @staticmethod
+    def hour_string(time_dict: dict):
+        return time(**time_dict).strftime("%H:%M")
+
+    @staticmethod
+    def current_day_hour(time_dict: dict):
+        return datetime.today().replace(**time_dict).strftime("%Y-%m-%d %H:%M")
+
+    @staticmethod
+    def next_day_hour(time_dict: dict):
+        tomorrow = date.today() + timedelta(days=1)
+        return tomorrow.replace(**time_dict).strftime("%Y-%m-%d %H:%M")
+
+    def current_stop_hour(self):
+        if self._is_stop_next_day:
+            return self.next_day_hour(self.stop_time)
+        else:
+            return self.current_day_hour(self.stop_time)
+
     def set_hourly_alerts(self):
         if datetime.today().weekday() < 5:  # schedule only from Monday to Friday
-            if self.is_stop_next_day:
-                tomorrow = date.today() + timedelta(days=1)
-                stop_hour = "{date} {time}".format(date=tomorrow.strftime("%Y-%m-%d"), time=self.stop_hour)
-            else:
-                stop_hour = self.stop_hour
-            schedule.every().hour.until(stop_hour).do(self.funct, *self.args, **self.kwargs)
+            print(self.funct)
+            print(self.args)
+            print(self.kwargs)
+            schedule.every().hour.until(self.current_stop_hour()).do(self.funct, *self.args, **self.kwargs)
 
     def schedule_next_day(self):
-        schedule.every().day.at(self.start_hour).do(self.set_hourly_alerts)
+        schedule.every().day.at(self.hour_string(self.start_time)).do(self.set_hourly_alerts)
 
 
 if __name__ == "__main__":
-    AlertsScheduler("19:08", "21:00", lambda: print("Current time: {}".format(time.time())))
+    AlertsScheduler(lambda: print("Current time: {}".format(datetime.now().isoformat(timespec='minutes'))),
+                    start_hour=15,
+                    stop_hour=17)
     while True:
         AlertsScheduler.run_waiting_alert()
-        time.sleep(1)
+        sleep(60)

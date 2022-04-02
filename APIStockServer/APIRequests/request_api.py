@@ -9,9 +9,9 @@ class ApiRequest:
         self._auth_key = auth_key
 
     def current_quote(self, asset_name):
-        # virtual function
+        # abstract function
         pass
 
     def current_price(self, asset_name):
-        # virtual function
+        # abstract function
         pass
