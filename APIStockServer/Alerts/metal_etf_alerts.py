@@ -1,4 +1,4 @@
-from APIStockServer.alerts.alerts import Alerts
+from APIStockServer.Alerts.alerts import Alerts
 from APIStockServer.APIRequests import Finnhub, GoldApi
 from APIStockServer.modules.email_sender import EmailSender
 from APIStockServer.modules.scraping import SprottScraping, MetalEtf
