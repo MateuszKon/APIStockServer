@@ -1,7 +1,7 @@
 import functools
 import requests
 
-from APIStockServer.DataAcquisition.request_api import ApiRequest
+from APIStockServer.DataAcquisition import ApiRequest, IPreciousMetalEtfData
 
 
 # Not using decorator package because of exception generation on calling decorated function
@@ -20,7 +20,7 @@ def api_request(function):
     return wrapper
 
 
-class Finnhub(ApiRequest):
+class Finnhub(ApiRequest, IPreciousMetalEtfData):
 
     def __init__(self, auth_key):
         super().__init__(auth_key)
@@ -46,7 +46,7 @@ class Finnhub(ApiRequest):
         response = request.get(api_url)
         return response
 
-    def current_price(self, asset_name):
+    def current_etf_price(self, asset_name: str) -> float:
         return self.current_quote(asset_name)['c']
 
 
@@ -56,5 +56,5 @@ if __name__ == "__main__":
         key = f_r.readline()
     api = Finnhub(key)
 
-    price = api.current_price("PHYS")
+    price = api.current_etf_price("PHYS")
     print(price)

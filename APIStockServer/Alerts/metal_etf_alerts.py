@@ -1,5 +1,5 @@
 from APIStockServer.Alerts import Alerts
-from APIStockServer.DataAcquisition import Finnhub, GoldApi
+from APIStockServer.DataAcquisition import IPreciousMetalSpotData, IPreciousMetalEtfData
 from APIStockServer.Alerts.AlertSender import IAlertSender
 from APIStockServer.modules.scraping import SprottScraping, MetalEtf
 from APIStockServer.modules.indicators_calculation import discount_calculation
@@ -10,10 +10,14 @@ class MetalEtfAlerts(Alerts):
     _METAL_CHECK_FUNCTIONS_DICTIONARY = None  # global defined later in this class
     _DISCOUNT_THRESHOLD = 10  # discount percentage to active alert
 
-    def __init__(self, alert_sender: IAlertSender, gold_api: GoldApi, finnhub_api: Finnhub, alert_reveivers):
-        super().__init__(alert_sender, alert_reveivers)
-        self.gold_api = gold_api
-        self.finnhub_api = finnhub_api
+    def __init__(self,
+                 alert_sender: IAlertSender,
+                 spot_data: IPreciousMetalSpotData,
+                 etf_data: IPreciousMetalEtfData,
+                 alert_receivers: list):
+        super().__init__(alert_sender, alert_receivers)
+        self.spot_data = spot_data
+        self.etf_data = etf_data
 
     def current_spot_price(self, etf: MetalEtf):
         funct = self._METAL_CHECK_FUNCTIONS_DICTIONARY[etf]["spot_price_function"]
@@ -21,14 +25,14 @@ class MetalEtfAlerts(Alerts):
         return funct(self, *args)
 
     def current_spot_price_gold_api(self, asset_name):
-        return self.gold_api.current_price(asset_name)
+        return self.spot_data.current_spot_price(asset_name)
 
     def current_multiple_spot_price_gold_api(self, *assets_names):
         return [self.current_spot_price_gold_api(asset_name) for asset_name in assets_names]
 
     def current_etf_price(self, etf: MetalEtf):
         asset_name = self._METAL_CHECK_FUNCTIONS_DICTIONARY[etf]["etf_price_argument"]
-        return self.finnhub_api.current_price(asset_name)
+        return self.etf_data.current_etf_price(asset_name)
 
     def check_etf_discount(self, etf: MetalEtf):
         etf_shares_amount, etf_metal_amount = SprottScraping.get_etf_allocation(etf)
@@ -63,6 +67,7 @@ class MetalEtfAlerts(Alerts):
 
 if __name__ == "__main__":
     from APIStockServer.Alerts.AlertSender import EmailSender
+    from APIStockServer.DataAcquisition import GoldApi, Finnhub
 
     key_path = "../../data/goldapi_key"
     with open(key_path) as f_r:

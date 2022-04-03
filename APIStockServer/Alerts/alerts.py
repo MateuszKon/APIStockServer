@@ -3,7 +3,9 @@ from APIStockServer.Alerts.AlertSender import IAlertSender
 
 class Alerts:
 
-    def __init__(self, alert_sender: IAlertSender, alert_receivers):
+    def __init__(self,
+                 alert_sender: IAlertSender,
+                 alert_receivers: list):
         self.email = alert_sender
         self.alert_receivers = alert_receivers
 

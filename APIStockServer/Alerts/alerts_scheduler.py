@@ -10,8 +10,8 @@ class AlertsScheduler:
         self.start_time = {"hour": start_hour, "minute": start_minute}
         self.stop_time = {"hour": stop_hour, "minute": stop_minute}
 
-        self._is_stop_next_day = datetime.today().replace(**self.start_time) >= \
-                                 datetime.today().replace(**self.stop_time)
+        self._is_stop_next_day = datetime.today().replace(**self.start_time) >= datetime.today().replace(
+                                                                                                    **self.stop_time)
         self.funct = funct
         self.args = args
         self.kwargs = kwargs
@@ -45,9 +45,6 @@ class AlertsScheduler:
 
     def set_hourly_alerts(self):
         if datetime.today().weekday() < 5:  # schedule only from Monday to Friday
-            print(self.funct)
-            print(self.args)
-            print(self.kwargs)
             schedule.every().hour.until(self.current_stop_hour()).do(self.funct, *self.args, **self.kwargs)
 
     def schedule_next_day(self):
