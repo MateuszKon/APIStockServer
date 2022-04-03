@@ -1,6 +1,6 @@
-from APIStockServer.Alerts.alerts import Alerts
+from APIStockServer.Alerts import Alerts
 from APIStockServer.APIRequests import Finnhub, GoldApi
-from APIStockServer.modules.email_sender import EmailSender
+from APIStockServer.Alerts.AlertSender import IAlertSender
 from APIStockServer.modules.scraping import SprottScraping, MetalEtf
 from APIStockServer.modules.indicators_calculation import discount_calculation
 
@@ -10,8 +10,8 @@ class MetalEtfAlerts(Alerts):
     _METAL_CHECK_FUNCTIONS_DICTIONARY = None  # global defined later in this class
     _DISCOUNT_THRESHOLD = 10  # discount percentage to active alert
 
-    def __init__(self, email_sender: EmailSender, gold_api: GoldApi, finnhub_api: Finnhub, alert_reveivers):
-        super().__init__(email_sender, alert_reveivers)
+    def __init__(self, alert_sender: IAlertSender, gold_api: GoldApi, finnhub_api: Finnhub, alert_reveivers):
+        super().__init__(alert_sender, alert_reveivers)
         self.gold_api = gold_api
         self.finnhub_api = finnhub_api
 
@@ -62,6 +62,8 @@ class MetalEtfAlerts(Alerts):
 
 
 if __name__ == "__main__":
+    from APIStockServer.Alerts.AlertSender import EmailSender
+
     key_path = "../../data/goldapi_key"
     with open(key_path) as f_r:
         key = f_r.readline()

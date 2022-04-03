@@ -1,10 +1,10 @@
-from APIStockServer.modules.email_sender import EmailSender
+from APIStockServer.Alerts.AlertSender import IAlertSender
 
 
 class Alerts:
 
-    def __init__(self, email_sender: EmailSender, alert_receivers):
-        self.email = email_sender
+    def __init__(self, alert_sender: IAlertSender, alert_receivers):
+        self.email = alert_sender
         self.alert_receivers = alert_receivers
 
     def get_alert_receivers(self):
