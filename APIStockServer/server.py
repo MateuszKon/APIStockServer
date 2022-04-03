@@ -1,4 +1,3 @@
-from flask import Flask
 import time
 import os
 
@@ -6,8 +5,6 @@ from APIStockServer.alerts import MetalEtfAlerts, AlertsScheduler
 from APIStockServer.APIRequests import Finnhub, GoldApi
 from APIStockServer.modules.config_file import ConfigFile
 from APIStockServer.modules.email_sender import EmailSender
-
-app = Flask(__name__)
 
 
 def initialize_api_objects(config: ConfigFile):

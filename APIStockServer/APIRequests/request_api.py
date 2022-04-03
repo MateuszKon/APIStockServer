@@ -1,8 +1,3 @@
-import os
-
-from APIStockServer.modules.util import get_environ_file_path
-
-
 class ApiRequest:
 
     def __init__(self, auth_key):
