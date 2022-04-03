@@ -1,5 +1,5 @@
 from APIStockServer.Alerts import Alerts
-from APIStockServer.APIRequests import Finnhub, GoldApi
+from APIStockServer.DataAcquisition import Finnhub, GoldApi
 from APIStockServer.Alerts.AlertSender import IAlertSender
 from APIStockServer.modules.scraping import SprottScraping, MetalEtf
 from APIStockServer.modules.indicators_calculation import discount_calculation

@@ -2,7 +2,7 @@ import time
 import os
 
 from APIStockServer.Alerts import MetalEtfAlerts, AlertsScheduler
-from APIStockServer.APIRequests import Finnhub, GoldApi
+from APIStockServer.DataAcquisition import Finnhub, GoldApi
 from APIStockServer.modules.config_file import ConfigFile
 from APIStockServer.Alerts.AlertSender import EmailSender
 
