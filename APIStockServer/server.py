@@ -1,10 +1,11 @@
 from flask import Flask
 import time
+import os
 
-from alerts import MetalEtfAlerts, AlertsScheduler
-from APIRequests import Finnhub, GoldApi
-from modules.config_file import ConfigFile
-from modules.email_sender import EmailSender
+from APIStockServer.alerts import MetalEtfAlerts, AlertsScheduler
+from APIStockServer.APIRequests import Finnhub, GoldApi
+from APIStockServer.modules.config_file import ConfigFile
+from APIStockServer.modules.email_sender import EmailSender
 
 app = Flask(__name__)
 
@@ -24,7 +25,7 @@ def initialize_email_sender(config: ConfigFile):
 
 
 if __name__ == "__main__":
-    config_obj = ConfigFile("config.ini")
+    config_obj = ConfigFile(os.path.join(os.path.dirname(__file__), "config.ini"))
     finnhub_apis, goldapi_apis = initialize_api_objects(config_obj)
     email_sender = initialize_email_sender(config_obj)
     receivers_emails = config_obj.read_file_defined_by_key("Email Sender", "receiver_emails_path")
