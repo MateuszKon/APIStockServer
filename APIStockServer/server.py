@@ -2,7 +2,7 @@ import time
 import os
 
 from APIStockServer.Alerts import MetalEtfAlerts, AlertsScheduler
-from APIStockServer.DataAcquisition import Finnhub, GoldApi, SprottScraping
+from APIStockServer.DataAcquisition import Finnhub, GoldApi, MetalEtfScraping
 from APIStockServer.modules.config_file import ConfigFile
 from APIStockServer.Alerts.AlertSender import EmailSender
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
                                       email_sender,
                                       goldapi_apis[0],
                                       finnhub_apis[0],
-                                      SprottScraping(),
+                                      MetalEtfScraping(),
                                       receivers_emails)
     AlertsScheduler(metal_etf_alerts.check_metal_alerts, print_log=True,
                     start_hour=10, start_minute=30,

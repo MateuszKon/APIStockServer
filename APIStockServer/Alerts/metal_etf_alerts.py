@@ -70,7 +70,7 @@ class MetalEtfAlerts(Alerts):
 
 if __name__ == "__main__":
     from APIStockServer.Alerts.AlertSender import EmailSender
-    from APIStockServer.DataAcquisition import GoldApi, Finnhub, SprottScraping
+    from APIStockServer.DataAcquisition import GoldApi, Finnhub, MetalEtfScraping
 
     list_of_etfs = ["PHYS", "PLSV", "SPPP"]
 
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     password = "GBvcqq7oqabLT6"
     sender = EmailSender(smtp_server, sender_email, password)
 
-    obj = MetalEtfAlerts(list_of_etfs, sender, gold_api, finnhub_api, SprottScraping(), [receiver_email, ])
+    obj = MetalEtfAlerts(list_of_etfs, sender, gold_api, finnhub_api, MetalEtfScraping(), [receiver_email, ])
     [obj.check_etf_discount(etf_name) for etf_name in list_of_etfs]
 
 
