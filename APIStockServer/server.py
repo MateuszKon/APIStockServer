@@ -2,7 +2,7 @@ import time
 import os
 
 from APIStockServer.Alerts import MetalEtfAlerts, AlertsScheduler
-from APIStockServer.DataAcquisition import Finnhub, GoldApi
+from APIStockServer.DataAcquisition import Finnhub, GoldApi, SprottScraping
 from APIStockServer.modules.config_file import ConfigFile
 from APIStockServer.Alerts.AlertSender import EmailSender
 
@@ -23,10 +23,16 @@ def initialize_email_sender(config: ConfigFile):
 
 if __name__ == "__main__":
     config_obj = ConfigFile(os.path.join(os.path.dirname(__file__), "config.ini"))
+    list_of_etfs = ["PHYS", "PLSV", "SPPP"]
     finnhub_apis, goldapi_apis = initialize_api_objects(config_obj)
     email_sender = initialize_email_sender(config_obj)
     receivers_emails = config_obj.read_file_defined_by_key("Email Sender", "receiver_emails_path")
-    metal_etf_alerts = MetalEtfAlerts(email_sender, goldapi_apis[0], finnhub_apis[0], receivers_emails)
+    metal_etf_alerts = MetalEtfAlerts(list_of_etfs,
+                                      email_sender,
+                                      goldapi_apis[0],
+                                      finnhub_apis[0],
+                                      SprottScraping(),
+                                      receivers_emails)
     AlertsScheduler(metal_etf_alerts.check_metal_alerts, print_log=True,
                     start_hour=10, start_minute=30,
                     stop_hour=21, stop_minute=50,

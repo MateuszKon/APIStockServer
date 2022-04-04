@@ -1,7 +1,9 @@
+from enum import Enum
+
 from bs4 import BeautifulSoup
 import requests
 
-from enum import Enum
+from APIStockServer.DataAcquisition import IPreciousMetalEtfInformation
 
 
 class MetalEtf(Enum):
@@ -10,27 +12,28 @@ class MetalEtf(Enum):
     SPPP = 3
 
 
-class SprottScraping:
+class SprottScraping(IPreciousMetalEtfInformation):
 
     _URLS = {MetalEtf.PHYS: "https://sprott.com/investment-strategies/physical-bullion-trusts/gold/",
              MetalEtf.PLSV: "https://sprott.com/investment-strategies/physical-bullion-trusts/silver/",
              MetalEtf.SPPP: "https://sprott.com/investment-strategies/physical-bullion-trusts/platinum-and-palladium/",
              }
 
-    @classmethod
-    def get_etf_allocation(cls, etf: MetalEtf):
+    def etf_allocation(self, etf_name: str):
         """
         Scraping information from https://sprott.com/ about inputed etf - scraped info is amount of shares in etf and
         amount of precious metals holding by this etf
-        :param etf: MetalEtf enumerate value
+        :param etf_name: MetalEtf enumerate value
         :return: Tuple of etf shares amount and total weight of metal holding. If selected etf if SPPP, then second
         element of the tuple is a list of weights' of platinium and palladium (as SPPP holds two types of precious
         metal)
         """
-        if not isinstance(etf, MetalEtf):
-            raise ValueError(f"'{etf}' is not MetalEtf enum type!")
+        try:
+            etf = MetalEtf[etf_name]
+        except KeyError:
+            raise ValueError(f"'{etf_name}' is not handled etf by SprottScraping class!")
         # Make a GET request to fetch the raw HTML content
-        html_content = requests.get(cls._URLS[etf]).text
+        html_content = requests.get(self._URLS[etf]).text
 
         # Parse the html content - shares of etf (units of etf)
         soup = BeautifulSoup(html_content, "lxml")
@@ -52,7 +55,8 @@ class SprottScraping:
 
 
 if __name__ == "__main__":
-    for metal_etf in MetalEtf:
+    metal_list = ["PHYS", "PLSV", "SPPP"]
+    for metal_etf in metal_list:
         print(metal_etf)
-        print(SprottScraping.get_etf_allocation(metal_etf))
+        print(SprottScraping().etf_allocation(metal_etf))
         print()
