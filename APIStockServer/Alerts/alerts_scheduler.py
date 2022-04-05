@@ -19,6 +19,8 @@ class AlertsScheduler:
         # Schedule functions - today alert and next days alert
         self.set_hourly_alerts()
         self.schedule_next_day()
+        # Start immediately - mostly for test purpose
+        self.funct(*self.args, **self.kwargs)
 
     @classmethod
     def run_waiting_alert(cls):

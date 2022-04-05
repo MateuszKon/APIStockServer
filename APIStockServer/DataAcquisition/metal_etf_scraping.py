@@ -13,9 +13,9 @@ class MetalEtfScraping(IPreciousMetalEtfInformation):
         """
         self.registered_etfs = dict()
         if register_default:
-            from APIStockServer.DataAcquisition.sprott_etf import SprottPhys, SprottPlsv, SprottSppp
+            from APIStockServer.DataAcquisition.sprott_etf import SprottPhys, SprottPslv, SprottSppp
             self.register_metal_etf(SprottPhys)
-            for SprottEtf in [SprottPhys, SprottPlsv, SprottSppp]:
+            for SprottEtf in [SprottPhys, SprottPslv, SprottSppp]:
                 self.register_metal_etf(SprottEtf)
         for AdditionalEtf in additional_etf_registration_list:
             self.register_metal_etf(AdditionalEtf)
@@ -39,7 +39,7 @@ class MetalEtfScraping(IPreciousMetalEtfInformation):
 
 
 if __name__ == "__main__":
-    etf_metal_list = ["PHYS", "PLSV", "SPPP"]
+    etf_metal_list = ["PHYS", "PSLV", "SPPP"]
     for metal_etf in etf_metal_list:
         print(metal_etf)
         print(MetalEtfScraping().etf_allocation(metal_etf))

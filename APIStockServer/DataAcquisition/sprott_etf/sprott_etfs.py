@@ -4,11 +4,11 @@ import requests
 from APIStockServer.DataAcquisition.sprott_etf import AbstractSprottEtf
 
 
-class SprottPlsv(AbstractSprottEtf):
+class SprottPslv(AbstractSprottEtf):
 
     @classmethod
     def handled_etf(cls):
-        return "PLSV"
+        return "PSLV"
 
     @classmethod
     def get_etf_url(cls):
