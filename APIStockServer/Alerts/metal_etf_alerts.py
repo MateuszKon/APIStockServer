@@ -56,6 +56,8 @@ if __name__ == "__main__":
         key = f_r.readline()
     finnhub_api = Finnhub(key)
 
+    metal_info_scraper = MetalEtfScraping()
+
     smtp_server = "smtp.gmail.com"
     sender_email = "mark.grengoric@gmail.com"  # Enter your address
     receiver_email = "mateusz.koniuszewski@gmail.com"  # Enter receiver address
@@ -68,7 +70,7 @@ if __name__ == "__main__":
         C: SprottEtfCalculation
         calculators.append(C(spot_data=gold_api,
                              etf_data=finnhub_api,
-                             etf_info=MetalEtfScraping()
+                             etf_info=metal_info_scraper
                              )
                            )
 

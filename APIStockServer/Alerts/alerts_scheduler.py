@@ -36,7 +36,7 @@ class AlertsScheduler:
 
     @staticmethod
     def next_day_hour(time_dict: dict):
-        tomorrow = date.today() + timedelta(days=1)
+        tomorrow = datetime.today() + timedelta(days=1)
         return tomorrow.replace(**time_dict).strftime("%Y-%m-%d %H:%M")
 
     def current_stop_hour(self):
