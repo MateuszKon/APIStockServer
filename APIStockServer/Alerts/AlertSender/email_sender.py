@@ -3,8 +3,10 @@ from email.mime.multipart import MIMEMultipart
 import smtplib
 import ssl
 
+from APIStockServer.Alerts.AlertSender import IAlertSender
 
-class EmailSender:
+
+class EmailSender(IAlertSender):
 
     def __init__(self, smtp_server, sender_email, password, port=465):
         self.smtp_server = smtp_server
@@ -12,7 +14,7 @@ class EmailSender:
         self.password = password
         self.port = port
 
-    def send(self, receiver_email, subject,  text_message):
+    def send(self, receiver_email, subject: str,  text_message: str):
         message = MIMEMultipart("alternative")
         message["Subject"] = subject
         message["From"] = self.sender_email

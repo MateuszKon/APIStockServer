@@ -10,8 +10,8 @@ class AlertsScheduler:
         self.start_time = {"hour": start_hour, "minute": start_minute}
         self.stop_time = {"hour": stop_hour, "minute": stop_minute}
 
-        self._is_stop_next_day = datetime.today().replace(**self.start_time) >= \
-                                 datetime.today().replace(**self.stop_time)
+        self._is_stop_next_day = datetime.today().replace(**self.start_time) >= datetime.today().replace(
+                                                                                                    **self.stop_time)
         self.funct = funct
         self.args = args
         self.kwargs = kwargs
@@ -19,6 +19,8 @@ class AlertsScheduler:
         # Schedule functions - today alert and next days alert
         self.set_hourly_alerts()
         self.schedule_next_day()
+        # Start immediately - mostly for test purpose
+        self.funct(*self.args, **self.kwargs)
 
     @classmethod
     def run_waiting_alert(cls):
@@ -34,7 +36,7 @@ class AlertsScheduler:
 
     @staticmethod
     def next_day_hour(time_dict: dict):
-        tomorrow = date.today() + timedelta(days=1)
+        tomorrow = datetime.today() + timedelta(days=1)
         return tomorrow.replace(**time_dict).strftime("%Y-%m-%d %H:%M")
 
     def current_stop_hour(self):
@@ -45,9 +47,6 @@ class AlertsScheduler:
 
     def set_hourly_alerts(self):
         if datetime.today().weekday() < 5:  # schedule only from Monday to Friday
-            print(self.funct)
-            print(self.args)
-            print(self.kwargs)
             schedule.every().hour.until(self.current_stop_hour()).do(self.funct, *self.args, **self.kwargs)
 
     def schedule_next_day(self):

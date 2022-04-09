@@ -3,18 +3,21 @@
 ## Intro
 
 APIStockServer currently checks current precious metals ETF prices and compares them with spot prices of metals. 
-Calculates discount of ETF and when discount threshold is exceeded, email alerts are send to subscribed users 
+Calculates discount of ETF and when discount threshold is exceeded, email alerts are sent to subscribed users 
 (current server version stores subscribed users emails in txt files).
-APIStockServer uses [Finnhub](https://finnhub.io/) API, [GoldAPI](https://goldapi.io/) API, so propper API keys are necessary for running server.
+APIStockServer uses [Finnhub](https://finnhub.io/) API, [GoldAPI](https://goldapi.io/) API, so proper API keys are necessary for running server.
 
-APIStockServer will be developed to work with sepearte web-server project (APIStock proejct) and SQL database. In the future web-server 
+APIStockServer will be developed to work with sepearte web-server project [APIStock](https://github.com/MateuszKon/APIStock) and SQL database.
+ In the future APIStockServer will:
+- handle users alerts generated on web-server (alerts, users etc., stored in database)
+- answer to API requests (REST API)
 
 ## What do you need to do to start your own server?
 
 - install requirements specified by requirements.txt
-- get authentication-key from [finnhub](https://finnhub.io/dashboard) and  [GoldAPI](https://goldapi.io/) (you need to register accounts) and put them into seperate files (as a plain text).
+- get authentication-key from [finnhub](https://finnhub.io/dashboard) and  [GoldAPI](https://goldapi.io/) (you need to register accounts) and put them into separate files (as a plain text).
 - in config.ini select path for authentication-key files (section 'API Keys' keys 'finnhub' and 'goldapi')
-- subscribed users email should be stored in txt file (each email in sepearte line) 
+- subscribed users email should be stored in txt file (each email in separate line) 
 - in config.ini select path for file with emails (section 'Email Sender' key 'receiver_emails_path')
 - in config.ini other keys of section 'Email Sender' might be used without changing (email account created for this project) 
 

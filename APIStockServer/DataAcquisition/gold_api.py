@@ -1,7 +1,7 @@
 import functools
 import requests
 
-from APIStockServer.APIRequests.request_api import ApiRequest
+from APIStockServer.DataAcquisition import ApiRequest, IPreciousMetalSpotData
 
 
 # Not using decorator package because of exception generation on calling decorated function
@@ -18,7 +18,7 @@ def api_request(function):
     return wrapper
 
 
-class GoldApi(ApiRequest):
+class GoldApi(ApiRequest, IPreciousMetalSpotData):
 
     def __init__(self, auth_key):
         super().__init__(auth_key)
@@ -33,7 +33,7 @@ class GoldApi(ApiRequest):
         # 'bid': 25.682}
         return response
 
-    def current_price(self, asset_name):
+    def current_spot_price(self, asset_name):
         return self.current_quote(asset_name)['price']
 
 
@@ -45,5 +45,5 @@ if __name__ == "__main__":
 
     # Gold price
     print("Gold:")
-    spot_price = api.current_price("XAU")
+    spot_price = api.current_spot_price("XAU")
     print(spot_price)
