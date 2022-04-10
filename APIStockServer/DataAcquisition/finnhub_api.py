@@ -23,13 +23,8 @@ def api_request(function):
 class Finnhub(ApiRequest, IPreciousMetalEtfData):
 
     def __init__(self, auth_key):
-        super().__init__(auth_key)
-        self._headers = {"X-Finnhub-Token": self._auth_key, 'Content-type': 'application/json'}
-
-    def _init_req(self) -> requests.Session:
-        s = requests.Session()
-        s.headers.update(self._headers)
-        return s
+        headers = {"X-Finnhub-Token": auth_key, 'Content-type': 'application/json'}
+        super().__init__(auth_key, headers)
 
     @api_request
     def request_test(self, request: requests.Session, name=None):
