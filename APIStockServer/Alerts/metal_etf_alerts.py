@@ -2,6 +2,7 @@ from typing import List
 
 from APIStockServer.Alerts import Alerts
 from APIStockServer.Alerts.AlertSender import IAlertSender
+from APIStockServer.Alerts.AlertSender.Receivers import IReceivers
 from APIStockServer.Alerts.MetalEtfCalculation import IMetalEtfCalculation
 
 
@@ -10,7 +11,7 @@ class MetalEtfAlerts(Alerts):
     def __init__(self,
                  sender: IAlertSender,
                  etfs_calculators: List[IMetalEtfCalculation],
-                 receivers: list,
+                 receivers: IReceivers,
                  discount_threshold=10):
         super().__init__(sender, receivers)
         self.etfs_calculators = etfs_calculators
@@ -42,6 +43,7 @@ class MetalEtfAlerts(Alerts):
 
 if __name__ == "__main__":
     from APIStockServer.Alerts.AlertSender import EmailSender
+    from APIStockServer.Alerts.AlertSender.Receivers import ReceiversSimpleList
     from APIStockServer.Alerts.MetalEtfCalculation import SprottEtfCalculation
     from APIStockServer.Alerts.MetalEtfCalculation import PhysEtfCalculation, PslvEtfCalculation, SpppEtfCalculation
     from APIStockServer.DataAcquisition import GoldApi, Finnhub, MetalEtfScraping
@@ -64,6 +66,8 @@ if __name__ == "__main__":
     password = "GBvcqq7oqabLT6"
     email_sender = EmailSender(smtp_server, sender_email, password)
 
+    receivers_obj = ReceiversSimpleList([receiver_email, ])
+
     list_of_sprott_etfs = [PhysEtfCalculation, PslvEtfCalculation, SpppEtfCalculation]
     calculators = list()
     for C in list_of_sprott_etfs:
@@ -74,7 +78,7 @@ if __name__ == "__main__":
                              )
                            )
 
-    obj = MetalEtfAlerts(email_sender, calculators, [receiver_email, ])
+    obj = MetalEtfAlerts(email_sender, calculators, receivers_obj)
     obj.check_metal_alerts(print_log=True)
 
 

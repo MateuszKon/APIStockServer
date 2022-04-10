@@ -1,6 +1,7 @@
 from typing import List
 
 from APIStockServer.Alerts.AlertSender import EmailSender
+from APIStockServer.Alerts.AlertSender.Receivers import ReceiversSimpleList
 from APIStockServer.Alerts.MetalEtfCalculation import SprottEtfCalculation
 from APIStockServer.DataAcquisition import IPreciousMetalSpotData, IPreciousMetalEtfData, IPreciousMetalEtfInformation
 from APIStockServer.DataAcquisition import Finnhub, GoldApi
@@ -34,3 +35,8 @@ def initialize_sprott_etf_calculators(metal_etfs_classes: List[SprottEtfCalculat
                              )
                            )
     return calculators
+
+
+def initialize_receivers_obj(config: ConfigFile):
+    receivers_emails = config.read_file_defined_by_key("Email Sender", "receiver_emails_path")
+    return ReceiversSimpleList(receivers_emails)
