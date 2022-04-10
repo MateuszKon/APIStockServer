@@ -8,11 +8,11 @@ from APIStockServer.Alerts.MetalEtfCalculation import IMetalEtfCalculation
 class MetalEtfAlerts(Alerts):
 
     def __init__(self,
-                 alert_sender: IAlertSender,
+                 sender: IAlertSender,
                  etfs_calculators: List[IMetalEtfCalculation],
-                 alert_receivers: list,
+                 receivers: list,
                  discount_threshold=10):
-        super().__init__(alert_sender, alert_receivers)
+        super().__init__(sender, receivers)
         self.etfs_calculators = etfs_calculators
         self.__discount_threshold = discount_threshold
 
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     sender_email = "mark.grengoric@gmail.com"  # Enter your address
     receiver_email = "mateusz.koniuszewski@gmail.com"  # Enter receiver address
     password = "GBvcqq7oqabLT6"
-    sender = EmailSender(smtp_server, sender_email, password)
+    email_sender = EmailSender(smtp_server, sender_email, password)
 
     list_of_sprott_etfs = [PhysEtfCalculation, PslvEtfCalculation, SpppEtfCalculation]
     calculators = list()
@@ -74,7 +74,7 @@ if __name__ == "__main__":
                              )
                            )
 
-    obj = MetalEtfAlerts(sender, calculators, [receiver_email, ])
+    obj = MetalEtfAlerts(email_sender, calculators, [receiver_email, ])
     obj.check_metal_alerts(print_log=True)
 
 

@@ -4,10 +4,10 @@ from APIStockServer.Alerts.AlertSender import IAlertSender
 class Alerts:
 
     def __init__(self,
-                 alert_sender: IAlertSender,
-                 alert_receivers: list):
-        self.email = alert_sender
-        self.alert_receivers = alert_receivers
+                 sender: IAlertSender,
+                 receivers: list):
+        self.sender = sender
+        self.alert_receivers = receivers
 
     def get_alert_receivers(self):
         """
@@ -18,4 +18,4 @@ class Alerts:
 
     def send_alerts(self, alert_title, alert_string):
         for receiver in self.get_alert_receivers():
-            self.email.send(receiver, alert_title, alert_string)
+            self.sender.send(receiver, alert_title, alert_string)
