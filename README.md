@@ -7,7 +7,7 @@ Calculates discount of ETF and when discount threshold is exceeded, email alerts
 (current server version stores subscribed users emails in txt files).
 APIStockServer uses [Finnhub](https://finnhub.io/) API, [GoldAPI](https://goldapi.io/) API, so proper API keys are necessary for running server.
 
-APIStockServer will be developed to work with sepearte web-server project [APIStock](https://github.com/MateuszKon/APIStock) and SQL database.
+APIStockServer will be developed to work with sepearte client project [APIStock](https://github.com/MateuszKon/APIStock) and SQL database.
  In the future APIStockServer will:
 - handle users alerts generated on web-server (alerts, users etc., stored in database)
 - answer to API requests (REST API)
