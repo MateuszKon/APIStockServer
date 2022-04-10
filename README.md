@@ -15,7 +15,7 @@ APIStockServer will be developed to work with sepearte client project [APIStock]
 ## SQL Database
 
 SQL Database of APIStockServer can be presented by this diagram
-![APIStock.png](https://github.com/MateuszKon/APIStockServer/blob/feature_adding_database/data/APIStock.png "APIStock.png")
+![APIStock.png](https://github.com/MateuszKon/APIStockServer/blob/master/data/APIStock.png "APIStock.png")
 
 ## What do you need to do to start your own server?
 
