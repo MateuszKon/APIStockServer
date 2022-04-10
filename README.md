@@ -12,6 +12,11 @@ APIStockServer will be developed to work with sepearte client project [APIStock]
 - handle users alerts generated on web-server (alerts, users etc., stored in database)
 - answer to API requests (REST API)
 
+## SQL Database
+
+SQL Database of APIStockServer can be presented by this diagram
+![APIStock.png](https://github.com/MateuszKon/APIStockServer/blob/feature_adding_database/data/APIStock.png "APIStock.png")
+
 ## What do you need to do to start your own server?
 
 - install requirements specified by requirements.txt
